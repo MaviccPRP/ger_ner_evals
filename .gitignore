@@ -1,0 +1,5 @@
+/classifiers/*
+/tmp/*
+__pycache__/*
+/.idea/*
+*.swp 

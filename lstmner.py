@@ -1,0 +1,1 @@
+print("The LSTM is based on Python 2.7 and does not have official api support. Thats why we use it on the command line. For more details see: https://github.com/glample/tagger")
