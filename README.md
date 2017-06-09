@@ -225,7 +225,7 @@ Both models we evaluated on the CoNLL, GermEval and EUROPARL data set.
     
 ## Synopsis
 
-Our evaluationis show, taht NER for German is still a challenging task. 
+Our evaluationis show, that NER for German is still a challenging task. 
 We collected ten different NER system for German, having a monolinguistic approach.
 These tools use different learning algorithms, though conditional random fields (CRF) are by far the most common and reach the best scores.
 As for the multilingual approach, we collected six different NER tools. 
@@ -233,14 +233,14 @@ As we have seen for the monolingual tools, CRF reaches the best results here, to
 Though the tool with the highest score combines CRF with neural networks.
 
 We chose the best performing tools, which are freely available and reach the best f1-scores.
-All other tools are either not freely available or are based on rather uncommon platforms, e.g. the haskell platform. This makes
+All other tools are either not freely available or based on rather uncommon platforms, e.g. the haskell platform. This makes
 it difficult to set them up (the Sequor).
 
 The 'gold standard' of german NER tools was and still is the Stanford NER tool (Faruqui/Pado 2010).
-Similar results we get from GermaNER (Benikova 2015), a tool which is based totally on open source and freely available resources.
+Similar results we get from GermaNER (Benikova 2015), a tool which is based totally on open source and freely available resources. Unfortunately we could not train our own model with GermaNER, as technical problems appeared during training process.
 But as well the LSTM tool (Lample 2016) is a promising approach for german NER.
 Though there had been several publications on this topic in this decade, in the official published results all tools stay beneath an f1-score of 80%.
-An exception is the current Stanford NER tool, which improved its f1-score on the CoNLL training/test pair in our experiments to 81.1%.
+An exception is the current Stanford NER tool, which improved its f1-score on the CoNLL training/test pair in our experiments to 81.1%. Still this score is not representative in general, as we evaluated our tools without using the IOB format.
 
 The Stanford NER as well reached the best out-of-domain result on the EUROPARL test corpus with an f1-score of 71.92%.
 
