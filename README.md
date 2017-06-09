@@ -122,9 +122,11 @@ For evaluation against the GermEval 2014 test set and the Europarl data set we c
 **StanfordNER**: In our experiments we will use the pretrained German model on the CoNLL 2003 data set and train our own model using the GermEval 2014 data set. Finally we will evaluate the two models on all three data sets, the CoNLL 2003, GermEval 2014 and the europarl data set.
 To *train* the Stanford NER with the GermEval 2014 data set, we just used the third column of the training set.
 For tagging we preprocessed the data, by converting the three input data sets into a python list. Sentence ends are marked by the string 'SENDEND'. The tagger outputs a list of tuples. 
+
 `
 [('Lenaustraße'.'I-LOC'),('70', 'O')]
 `
+
 This list is reformated into our standard two column tab seperated files for the evaluator class. In postprocessing we removed the 'SENTEND' strings and fixed some special character bugs during tagging.
 
 **GermaNER**: We could not successfully train our new model with the GermaNER tool. Due to that, we just used the pretrained German model on the CoNLL 2003 data set. For the tagging process of the GermeNER tool we preprocessed the CoNLL and the europarl data sets to a two column tab seperated version. The first column contains the tokens, the second column contains the named entity classes. The GermEval test data set could be used without preprocessing.
@@ -132,9 +134,11 @@ The output is a two colum CoNLL style format, right as we use it in our evaluato
 
 **LSTM**: As there is no German model available publicly available, we had to train as well a model based on the GermEval 2014 data as for the CoNLL 2003 data. For training using the GermEval 2014 data, we had to convert it into a five column style tab seperated file. Each line contains a token. The first column contains the tokens, the fifth column the NE classes. The rest v the columns are ignored. The CoNLL data could be used out of the box.
 For testing the LSTM we preprocessed the CoNLL and GermEval data, by converting them into a file containing one sentence per line. The tagged output is by default in a special tokenized format. 
+
 `
 Lenaustraße__I-LOC 70__O .
 `
+
 This we converted into a our evaluator class ready two column tab seperated file format.
 
 **SpaCy entity recognition**: The SpaCy entity recognition tool uses a different named entity class set. That is, why we need to train our own models for both data sets, the CoNLL 2003 and the GermEval 2014 data set. For training the spaCy tool we had to preprocess the CoNLL 2003 and the GermEval 2014 data set to the spaCy specific data format (see: https://spacy.io/docs/usage/entity-recognition). 
