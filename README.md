@@ -141,7 +141,7 @@ Lenaustraße__I-LOC 70__O .
 
 This we converted into a our evaluator class ready two column tab seperated file format.
 
-**SpaCy entity recognition**: The SpaCy entity recognition tool uses a different named entity class set. That is, why we need to train our own models for both data sets, the CoNLL 2003 and the GermEval 2014 data set. For training the spaCy tool we had to preprocess the CoNLL 2003 and the GermEval 2014 data set to the spaCy specific data format (see: https://spacy.io/docs/usage/entity-recognition). 
+**SpaCy entity recognition**: The SpaCy entity recognition tool uses a different named entity class set. The german model of spaCy uses a subset of the named entities defined in the OntoNotes 5 corpus (OntoNotes Release 5.0 2012). That is, why we need to train our own models for both data sets, the CoNLL 2003 and the GermEval 2014 data set. For training the spaCy tool we had to preprocess the CoNLL 2003 and the GermEval 2014 data set to the spaCy specific data format (see: https://spacy.io/docs/usage/entity-recognition). 
 ```python
  ('Das erfuhrt Sport-Bild-Online aus internen Kreisen des DSV.',
   [(0, 3, 'O'),
@@ -156,7 +156,14 @@ This we converted into a our evaluator class ready two column tab seperated file
 The CoNLL 2003 and the GermEval 2014 training data is converted into a list containing tuples. Every tuple contains a string, representing the sentence, and a list of tuples, containing three entries. The first and second entry inticate the position of a specific token and the last entry represents the named entity class. 
 For tagging we had to postprocess the spaCy output to our evaluation two column tab seperated format.
 
-Freme NER
+**Freme NER**: In our task we used the Freme NER web API (https://freme-project.github.io/api-doc/simple.html#/). A German model is already available. Freme NER uses a normal text file as an input and returns a turtle nif file as output.
+As Freme uses a custom tokenizer, which makes it very challenging, to align the output to our test corpora.
+Alternatively Freme accepts turtle as input, but conversion in our task finally had been more efficient via plain text input.
+After feeding the Freme tool with the EUROPARL corpus we converted the output into CoNLL style format using our convert_nif_2_conll class.
+Due to the much larger test corpora from CoNLL and GermEval, we do not test them with Freme in this task.
+
+
+### Classes used by the tools
 
 The Stanford NER and the LSTM use the NE classes defined in the CoNLL 2003 shared task.
 GermaNER uses the same classes, just the MISC class is replaced to OTH. 
@@ -164,15 +171,6 @@ This makes all in all four jointly used classes (MISC/OTH, PER, LOC, ORG)
 GermaNER and the Stanford NER tool use the IOB format (<a href="https://en.wikipedia.org/wiki/Inside_Outside_Beginning">link</a>)
 Just the LSTM NER tool by default uses an advanced IOB format, the IOBES. Here single (S) named entities and the last token (E) of a named entity are separately recognized . For the sake of somplicity we trained this tool with the simpler IOB format.
 The Freme NER tool uses neither IOB nor IOBES.
-
-Freme NER uses a normal text file as an input and returns a turtle nif file as output.
-As Freme uses a custom tokenizer, which makes it very challenging, to align the output to our test corpora.
-Alternatively Freme accepts turtle as input, but conversion finally had been more efficient via plain text input.
-After feeding the Freme tool with the EUROPARL corpus we converted the output into CoNLL style format.
-Due to the much larger test corpora from CoNLL and GermEval, we do not test them with Freme.
-
-The german model of spaCy uses a subset of the named entities defined in the OntoNotes 5 corpus (OntoNotes Release 5.0 2012).
-To fit the tool with the named entity classes used by Stanford, LSTM, GermaNER and Freme, we trained a new model, based on our four named entity classes.
 
 ### Experiments
 ++++++++++++++moved from data
