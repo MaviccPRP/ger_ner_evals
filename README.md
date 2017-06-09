@@ -98,10 +98,9 @@ Our tools need to fulfill the following requirements:
 - if tool is not easy to train, tool needs to offer a German model with our NE classes (MISC/OTH, PER, LOC, ORG) out of the box. 
 
 Majority of the demands are met by the following tools:
-
-- LSTM (Lample 2016)
-- GermaNER (Benikova 2015) (problems during training)
 - Standford NER (Faruqui, Padó 2010)
+- GermaNER (Benikova 2015) (problems during training)
+- LSTM (Lample 2016)
 - SpaCy Entity recognition (no specific publication, see https://github.com/explosion/spaCy/issues/491)
 - Freme NER (Dojchinovski 2017) (no training possible)
 
@@ -109,7 +108,51 @@ As mentioned in the motivation, we include Freme to show the effort of including
 LSTM reaches the best scores of all multilingual NER tool and is freely available. Stanford NER and GermaNER are the best performing of monolingual NER tools and are freely available and well documented.
 SpaCy is a popular non-academic python NLP tool, comparing itself with state of the art NLP tools like Stanford NLP and NLTK.
 
-### Formats and NE Classes
+### Formats 
+
+#### Evaluation format
+
+For our evaluation class we needed to postprocess the tagged output of our NER tools. 
+For evaluation against the CoNLL 2003 test set we converted our output data from each tool into a file containing one token per line. The first line is marked by the CoNLL '-DOCSTART-' string. Sentence ends are marked by new lines. The file contains two columns, the first column contains the token, the second line contains the named entity class in IOB format.
+
+For evaluation against the GermEval 2014 test set and the Europarl data set we converted the data in the same file format, just without the first '-DOCSTART-' line.
+
+#### Preprocessing and postprocessing data for each tool
+
+**StanfordNER**: In our experiments we will use the pretrained German model on the CoNLL 2003 data set and train our own model using the GermEval 2014 data set. Finally we will evaluate the two models on all three data sets, the CoNLL 2003, GermEval 2014 and the europarl data set.
+To *train* the Stanford NER with the GermEval 2014 data set, we just used the third column of the training set.
+For tagging we preprocessed the data, by converting the three input data sets into a python list. Sentence ends are marked by the string 'SENDEND'. The tagger outputs a list of tuples. 
+`
+[('Lenaustraße'.'I-LOC'),('70', 'O')]
+`
+This list is reformated into our standard two column tab seperated files for the evaluator class. In postprocessing we removed the 'SENTEND' strings and fixed some special character bugs during tagging.
+
+**GermaNER**: We could not successfully train our new model with the GermaNER tool. Due to that, we just used the pretrained German model on the CoNLL 2003 data set. For the tagging process of the GermeNER tool we preprocessed the CoNLL and the europarl data sets to a two column tab seperated version. The first column contains the tokens, the second column contains the named entity classes. The GermEval test data set could be used without preprocessing.
+The output is a two colum CoNLL style format, right as we use it in our evaluator class. No extra postprocessing was needed.
+
+**LSTM**: As there is no German model available publicly available, we had to train as well a model based on the GermEval 2014 data as for the CoNLL 2003 data. For training using the GermEval 2014 data, we had to convert it into a five column style tab seperated file. Each line contains a token. The first column contains the tokens, the fifth column the NE classes. The rest v the columns are ignored. The CoNLL data could be used out of the box.
+For testing the LSTM we preprocessed the CoNLL and GermEval data, by converting them into a file containing one sentence per line. The tagged output is by default in a special tokenized format. 
+`
+Lenaustraße__I-LOC 70__O .
+`
+This we converted into a our evaluator class ready two column tab seperated file format.
+
+**SpaCy entity recognition**: The SpaCy entity recognition tool uses a different named entity class set. That is, why we need to train our own models for both data sets, the CoNLL 2003 and the GermEval 2014 data set. For training the spaCy tool we had to preprocess the CoNLL 2003 and the GermEval 2014 data set to the spaCy specific data format (see: https://spacy.io/docs/usage/entity-recognition). 
+```python
+ ('Das erfuhrt Sport-Bild-Online aus internen Kreisen des DSV.',
+  [(0, 3, 'O'),
+   (4, 11, 'O'),
+   (12, 29, 'B-ORG'),
+   (30, 33, 'O'),
+   (34, 42, 'O'),
+   (43, 50, 'O'),
+   (51, 54, 'O'),
+   (55, 59, 'B-ORG')]),
+```
+The CoNLL 2003 and the GermEval 2014 training data is converted into a list containing tuples. Every tuple contains a string, representing the sentence, and a list of tuples, containing three entries. The first and second entry inticate the position of a specific token and the last entry represents the named entity class. 
+For tagging we had to postprocess the spaCy output to our evaluation two column tab seperated format.
+
+Freme NER
 
 The Stanford NER and the LSTM use the NE classes defined in the CoNLL 2003 shared task.
 GermaNER uses the same classes, just the MISC class is replaced to OTH. 
@@ -138,23 +181,11 @@ For the Freme NER tool, we convert the nif output to the common tab separated Co
 
 For the non-NEL tools we first converted the EUROPARL text into a two column tab seperated version. Firtst column contains the token, the second one contains the NE class. The NE classes are represented in non-IOB format.
 
-To train the CoNLL tool Stanford NER with the GermEval 2014 data set, we just used the fourth column of the training data, ignoring the embedded NEs.
-For tagging we preprocessed the data, by converting the input data into a list, marking sentence ends by the string 'SENDEND'. The tagger outputs a list of tuples. This list is reformated into our standard two column tab seperated files.
-In postprocessing we removed the 'SENTEND' strings and fixed some special character bugs during tagging.
 
-For the tagging process of the GermeNER tool we preprocessed the CoNLL and the europarl data sets to a two column tab seperated version. The first column contained the token, the second the NE class.
-The output we used directly in our evaluation class.
-Training with GermaNER did not work properly.
 
-For training the LSTM we converted the GermEval data into a column style tab seperated file. The first column contains the tokens, the fifth column the NE classes.
-The CoNLL data could be used out of the box.
-For testing the LSTM we preprocessed the CoNLL and GermEval data, by converting them into a file containing one sentence per line.
-The tagged output is by default in a special tokenized format. 
-*token__NE-class*
-This we converted into a our evaluator ready two column tab seperated format.
 
-For the spaCy tool we had to convert the CoNLL and the GermEval data set to the spaCy specific data format (see: https://spacy.io/docs/usage/entity-recognition). 
-In addition we had to convert the spaCy output to our evaluation two column tab seperated format.
+
+
 
 As there are considerable differences in the used metrics between the CoNLL 2003 and the GermEval 2014 shared tasks, we evaluated the tools on our own, to receive comparable results.
 We use the following metrics for evaluation:
