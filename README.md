@@ -173,21 +173,6 @@ Just the LSTM NER tool by default uses an advanced IOB format, the IOBES. Here s
 The Freme NER tool uses neither IOB nor IOBES.
 
 ### Experiments
-++++++++++++++moved from data
-All investigated tools had been trained on one of the above and evaluated on either the associated development or test set.
-Only the Stanford NER (Faruqui/Pado 2010) had been evaluated on a manually annotated out-of-domain corpora. The corpora contains the first two sessions of the european parliament.
-The first session is used for this project, as an independent evaluation data set for all tools, as well. It is not in IOB format.
-For the Freme NER tool, we convert the nif output to the common tab separated CoNLL style format using our converter and manually adaptions.
-++++++++++++++
-
-
-For the non-NEL tools we first converted the EUROPARL text into a two column tab seperated version. Firtst column contains the token, the second one contains the NE class. The NE classes are represented in non-IOB format.
-
-
-
-
-
-
 
 As there are considerable differences in the used metrics between the CoNLL 2003 and the GermEval 2014 shared tasks, we evaluated the tools on our own, to receive comparable results.
 We use the following metrics for evaluation:
@@ -206,8 +191,7 @@ Both models had been evaluated on the CoNLL, GermEval and EUROPARL data set.
         *(tag_scheme=iob,lower=False,zeros=False,char_dim=25,char_lstm_dim=25,char_bidirect=True,word_dim=50,word_lstm_dim=50,word_bidirect=True,pre_emb=,all_emb=False,cap_dim=0,crf=True,dropout=0.5,lr_method=adam)*
         - tested on: CoNLL-2003 testa (62.8%), GermaEval (75.8%), EUROPARL (61.8%)
         
-2. For the GermaNER we use the pre-trained model, trained on the GermEval 2014 data set. In addition we trained our own model using the 
-CoNLL 2003 data set. Both models we evaluated on the CoNLL testa set, GermEval test set and EUROPARL data set. 
+2. For the GermaNER we use the pre-trained model, trained on the GermEval 2014 data set. Training on our own data set did not work properly.We evaluated the pretrained model on the CoNLL testa set, GermEval test set and EUROPARL data set. 
 
     **GermaNER**
     - pretrained on: GermEval 2014
