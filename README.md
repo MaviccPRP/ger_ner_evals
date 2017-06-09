@@ -53,23 +53,39 @@ To improve our evaluation workflow we further developed some custom classes and 
 - convert_conll2spacy.py (convert conll input to spaCy data)
 - convert_germaeval2spacy.py (convert the germaeval input to spaCy data)
 - convert_nif_2_conll.py (convert the Freme NER output nif file to a CoNLL 2003 style tab separated file. Pipeline is still buggy, alot of manual work still to be done, as special characters are sometimes not handled properly)
-- lstmner.py just a note, that lstm uses no api, but is a command line tool
+- lstmner.py ()just a note, that lstm uses no api, but is a command line tool)
 
 ## Data 
-### Corpora
 
 If we focus on the supervised learning task of NER, there are currently two data sets available:
 
 1. CoNLL 2003 (Tjong Kim Sang/De Meulder 2003)
 2. NoSta-D NE - GermEval 2014 (Bernikova 2014)
 
-The GermEval 2014 data set is IOB formated and contains derivation and part classes. These specific classes are striped to the main class, e.g. PERdetriv becomes PER.
-For the sake of simplicity and to keep comparability between the CoNLL 2003 and the GermEval 2014 tools, we do not pay attention to the embedded/nested NE, considered in the last column of the GermEval 2014 data set.
+In this project we use the German CoNLL 2003 data set. The text is from the Ger-
+man newspaper Frankfurter Rundshau. The training data consists of 206.931 tokens in 12.705 sentences. The test set consists of 51.943 tokens in 3.160 sentences. The NE classes are distributed as follows:
 
-All investigated tools had been trained on one of the above and evaluated on either the associated development or test set.
-Only the Stanford NER (Faruqui/Pado 2010) had been evaluated on a manually annotated out-of-domain corpora. The corpora contains the first two sessions of the european parliament.
-The first session is used for this project, as an independent evaluation data set for all tools, as well. It is not in IOB format.
-For the Freme NER tool, we convert the nif output to the common tab separated CoNLL style format using our converter and manually adaptions.
+|    |LOC    | MISC   |  ORG  | PER  |
+|----| ---- |:-------|-------| -----|
+|Training set|4363|2288|2427|2773|
+|Test set|1035|670|773|1195|
+
+The data set contains one token per line. Sentences are seperated by empty lines. Each line contains four fields, just the last column represents the named entities in IOB format (Tjong Kim Sang/De Meulder 2003).
+
+
+The GermEval 2014 data set contains text from German Wikipedia articles and onlines news texts. The training data consists of 24.000 sentences. The test set consists of 5.100 sentences. All in all the data set contains over 590.000 tokens. The NE classes are distributed as follows:
+
+|    |LOC    | OTH   |  ORG  | PER  |
+|----| ---- |:-------|-------| -----|
+|Training set|12791|6986|9889|12423|
+|Test set|2683|1644|2033|2609|
+
+The data set contains one token per line. It is similar to the CoNLL 2003 format. Additionally the first column represents numbers per sentence and a commented line at the beginning of each sentence, representing the data source and data. The third columns contains the named entities in IOB format. The fourth column containing nested named entities is ignored in this task. Additional derivates of named entities are ignore, too and treated as standard IOB classes (Bernikova 2014).
+
+As an out-of-domain data set we used texts from the european parliament annotated by Sebastian Pado following the CoNLL 2003 guidelines (https://www.nlpado.de/~sebastian/software/ner_german.shtml). 
+
+
+## Experiments and Evaluation:
 
 ### Formats and NE Classes
 
@@ -89,8 +105,13 @@ Due to the much larger test corpora from CoNLL and GermEval, we do not test them
 The german model of spaCy uses a subset of the named entities defined in the OntoNotes 5 corpus (OntoNotes Release 5.0 2012).
 To fit the tool with the named entity classes used by Stanford, LSTM, GermaNER and Freme, we trained a new model, based on our four named entity classes.
 
-
-## Experiments and Evaluation:
+### Experiments
+++++++++++++++moved from data
+All investigated tools had been trained on one of the above and evaluated on either the associated development or test set.
+Only the Stanford NER (Faruqui/Pado 2010) had been evaluated on a manually annotated out-of-domain corpora. The corpora contains the first two sessions of the european parliament.
+The first session is used for this project, as an independent evaluation data set for all tools, as well. It is not in IOB format.
+For the Freme NER tool, we convert the nif output to the common tab separated CoNLL style format using our converter and manually adaptions.
+++++++++++++++
 
 For our evaluations, we had to choose tools from all available German NER tools (see appendix).
 Our tools need to fulfill the following requirements:
