@@ -87,6 +87,28 @@ As an out-of-domain data set we used texts from the european parliament annotate
 
 ## Experiments and Evaluation:
 
+### NER tools
+
+For our evaluations, we had to choose tools from all available German NER tools (see appendix).
+Our tools need to fulfill the following requirements:
+
+- freely available and open source
+- well documentated
+- installation is not too complicated and training new models possible in reasonable time (*still problems with GermaNER*).
+- if tool is not easy to train, tool needs to offer a German model with our NE classes (MISC/OTH, PER, LOC, ORG) out of the box. 
+
+Majority of the demands are met by the following tools:
+
+- LSTM (Lample 2016)
+- GermaNER (Benikova 2015) (problems during training)
+- Standford NER (Faruqui, Padó 2010)
+- SpaCy Entity recognition (no specific publication, see https://github.com/explosion/spaCy/issues/491)
+- Freme NER (Dojchinovski 2017) (no training possible)
+
+As mentioned in the motivation, we include Freme to show the effort of including NEL tools into a non-NEL evaluation.
+LSTM reaches the best scores of all multilingual NER tool and is freely available. Stanford NER and GermaNER are the best performing of monolingual NER tools and are freely available and well documented.
+SpaCy is a popular non-academic python NLP tool, comparing itself with state of the art NLP tools like Stanford NLP and NLTK.
+
 ### Formats and NE Classes
 
 The Stanford NER and the LSTM use the NE classes defined in the CoNLL 2003 shared task.
@@ -113,25 +135,6 @@ The first session is used for this project, as an independent evaluation data se
 For the Freme NER tool, we convert the nif output to the common tab separated CoNLL style format using our converter and manually adaptions.
 ++++++++++++++
 
-For our evaluations, we had to choose tools from all available German NER tools (see appendix).
-Our tools need to fulfill the following requirements:
-
-- freely available and open source
-- well documentated
-- installation is not too complicated and training new models possible in reasonable time (*still problems with GermaNER*).
-- if tool is not easy to train, tool needs to offer a German model with our NE classes (MISC/OTH, PER, LOC, ORG) out of the box. 
-
-Majority of the demands are met by the following tools:
-
-- LSTM (Lample 2016)
-- GermaNER (Benikova 2015) (problems during training)
-- Standford NER (Faruqui, Padó 2010)
-- SpaCy Entity recognition (no specific publication, see https://github.com/explosion/spaCy/issues/491)
-- Freme NER (Dojchinovski 2017) (no training possible)
-
-As mentioned in the motivation, we include Freme to show the effort of including NEL tools into a non-NEL evaluation.
-LSTM reaches the best scores of all multilingual NER tool and is freely available. Stanford NER and GermaNER are best performing of monolingual NER tools and are freely available, too.
-SpaCy is a popular non-academic python NLP tool, comparing itself with Stanford NLP and NLTK.
 
 For the non-NEL tools we first converted the EUROPARL text into a two column tab seperated version. Firtst column contains the token, the second one contains the NE class. The NE classes are represented in non-IOB format.
 
