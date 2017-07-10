@@ -20,7 +20,7 @@ To get an overview of the current state of research the goals of this project ar
 
 Out of scope of this project is to examine the exact methods of these NER tools. 
 We just distinguish between two main methods to extract named entities:
-1. ML (mainly LSTM *(<a href="https://en.wikipedia.org/wiki/Long_short-term_memory">Long short-term memory</a>)*, CRF *(<a href="https://en.wikipedia.org/wiki/Conditional_random_field">Conditional Random Field</a>)*, SVM *(<a href="https://en.wikipedia.org/wiki/Support_vector_machine">Support Vector Machines</a>)*)
+1. ML (mainly LSTM *(<a href="https://en.wikipedia.org/wiki/Long_short-term_memory">Long short-term memory</a>)*, CRF *(<a href="https://en.wikipedia.org/wiki/Conditional_random_field">Conditional Random Field</a>)*, SVM *(<a href="https://en.wikipedia.org/wiki/Support_vector_machine">Support Vector Machines</a>)*
 2. Named Entity Linking (NEL) via Wikidata, DBpedia a.o.
 
 NEL tools are mainly focusing on multilingual NER. These tools use a standard nif format for data input and output, which makes it challenging to compare them
