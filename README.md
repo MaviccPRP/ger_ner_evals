@@ -226,7 +226,7 @@ Both models we evaluated on the CoNLL, GermEval and EUROPARL data set.
 ## Synopsis
 
 Our evaluationis show, that NER for German is still a challenging task. 
-We collected ten different NER system for German, having a monolinguistic approach.
+We collected ten different NER systems for German, having a monolinguistic approach.
 These tools use different learning algorithms, though conditional random fields (CRF) are by far the most common and reach the best scores.
 As for the multilingual approach, we collected six different NER tools. 
 As we have seen for the monolingual tools, CRF reaches the best results here, too. 
