@@ -3,3 +3,15 @@
 __pycache__/*
 /.idea/*
 *.swp 
+*.tex
+*.bib
+*.bbl
+*.aux
+*.log
+*.nav
+*.out
+*.toc
+*.snm
+*.blg
+*.dvi
+
